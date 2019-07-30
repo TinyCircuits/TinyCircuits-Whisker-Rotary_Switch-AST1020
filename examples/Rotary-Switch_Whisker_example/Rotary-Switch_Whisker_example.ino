@@ -15,7 +15,8 @@
 #include <Wire.h>
 #include "SH7010.h"
 
-#define ROT_PORT 0 // Port 0 on whisker board
+#define NUM_POSITIONS 10 // number of positions on rotary switch
+#define ROT_PORT 0 // port 0 on whisker board
 SH7010 rotary = SH7010();
 
 const int powerPin = 4;
