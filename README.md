@@ -1,7 +1,7 @@
-# TinyCircuits Whisker Rotary Switch
+# TinyCircuits Wireling Rotary Switch
 # AST1020 Rev3
 
-The design files are located under design_files/ for the TinyCircuits AST1020 Rev 3 PCB. This is a whisker board which features a 10-position Rotary Switch. The on-board SX1505 I2C expander is used with the SH7010 library to send back the position over I2C.
+The design files are located under design_files/ for the TinyCircuits AST1020 Rev 3 PCB. This is a Wireling board which features a 10-position Rotary Switch. The on-board SX1505 I2C expander is used with the SH7010 library to send back the position over I2C.
 
 Format is in Cadsoft Eagle format - Eagle version 6.2 was used for the original design.
 
