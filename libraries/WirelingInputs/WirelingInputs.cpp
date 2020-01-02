@@ -1,4 +1,4 @@
-#include "SH7010.h"
+#include "WirelingInputs.h"
 
 #include <inttypes.h>
 #include "Arduino.h"
@@ -51,19 +51,63 @@ int SH7010::init(void) {
     delay(5);
   write(SX1505_REG_DATA, 0x00);         // clear contents of register data
     delay(5);
-  write(SX1505_REG_PULLUP, 0x1B);       // enable pull-up on IO3, 1, 4, 0 (IO used by rotary)
+  write(SX1505_REG_PULLUP, 0x9B);       // enable pull-up on IO3, 7, 1, 0, 4 (IO used by Joystick)
     delay(5);
   return debug;
 }
 
 // return data from data register
 uint8_t SH7010::getRegData(void) {
+  value = 0x00;
   value = read(SX1505_REG_DATA);
   return value;
 }
 
+/*TinyJoystick*/
+
+TinyJoystick::TinyJoystick() {
+  // default constructor
+}
+
+
+// return joystick position
+void TinyJoystick::getPosition(void) {
+  // reset direction variables before setting and sending new values
+  up = 0;
+  down = 0;
+  left = 0;
+  right = 0;
+
+  getRegData();
+
+  uint8_t dirtyValue = ~value;  // flip bits since active low
+  
+  if(dirtyValue & JOYSTICK_UP) {
+    up = 1;
+  }
+  if(dirtyValue & JOYSTICK_DOWN) {
+    down = 1;
+  }
+  if(dirtyValue & JOYSTICK_LEFT) {
+    left = 1;
+  }
+  if(dirtyValue & JOYSTICK_RIGHT) {
+    right = 1;
+  }
+  if (dirtyValue == JOYSTICK_NEUTRAL){
+    up = 0;
+    down = 0;
+    left = 0;
+    right = 0;
+  }
+}
+
+TinyRotary::TinyRotary() {
+  // default constructor
+}
+
 // return rotary position
-uint8_t SH7010::getPosition(void) {
+uint8_t TinyRotary::getPosition(void) {
   getRegData();
 
   uint8_t cleanValue = 0x00;                // initialize all 0
