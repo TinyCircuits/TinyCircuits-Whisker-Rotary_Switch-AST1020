@@ -1,8 +1,9 @@
 /*
-  TinyCircuits Rotary Switch Wireling Example Sketch
+  TinyCircuits Rotary Switch/Joystick Wireling Example Sketch
 
   This sketch will output the integer value selected on the
-  Rotary Switch Wireling.
+  Rotary Switch Wireling along with the directional input
+  from the Joystick Wireling.
 
   Written 15 July 2019
   By Hunter Hykes
@@ -28,18 +29,20 @@
 
 #define USE_OLED true // set true if using 0.42" OLED to echo input, false if using Serial Monitor
 
-/* * * * * * * * * * 0.42" OLED * * * * * * * * * */
-#define OLED_PORT 0 // use Port 0 for screen
-#define OLED_RST (uint8_t) A0 //OLED reset line
-TinierScreen display042 = TinierScreen(OLED042);
-TinyBuffer screenBuffer042 = TinyBuffer(72, 40, colorDepth1BPP);
-
-#define JS_PORT 2 // port 2 on wireling board
-TinyJoystick joystick = TinyJoystick(); // create new TinyJoystick object
-
-#define ROT_PORT 3 // port 3 on wireling board
+/* * * * * * * * * * Rotary * * * * * * * * * */
+#define ROT_PORT 0 // port 0 on wireling board
 TinyRotary rotary = TinyRotary(); // create new TinyRotary object
 uint8_t rotaryValue;
+
+/* * * * * * * * * * Joystick * * * * * * * * * */
+#define JS_PORT 1 // port 1 on wireling board
+TinyJoystick joystick = TinyJoystick(); // create new TinyJoystick object
+
+/* * * * * * * * * * 0.42" OLED * * * * * * * * * */
+#define OLED_PORT 3 // use Port 0 for screen
+#define OLED_RST (uint8_t) A3 //OLED reset line
+TinierScreen display042 = TinierScreen(OLED042);
+TinyBuffer screenBuffer042 = TinyBuffer(72, 40, colorDepth1BPP);
 
 void setup() {
   Wire.begin();
