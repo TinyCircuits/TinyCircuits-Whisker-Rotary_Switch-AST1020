@@ -1,10 +1,10 @@
 /*
-WirelingInputs Arduino Library
-Written 07/10/2019
-By Hunter Hykes for TinyCircuits
-Modified 01/02/2020
-By Hunter Hykes
-
+SX1505 Arduino Library
+  Written July 2019
+  By Hunter Hykes
+  Modified Feb 2020
+  By Laveréna Wienclaw
+  
 Written for use with the Rotary Switch and Joystick Wirelings
 featuring the SX1505 I2C I/O Expander.
 */
@@ -14,9 +14,8 @@ To use, declare a global instance of an TinyJoystick object,
 	TinyJoystick js = TinyJoystick();
 
 Then include the following in setup().
+  selectPort(JOYSTICK_PORT); // assign JOYSTICK_PORT to the port in use
 	js.begin();
-	js.init();
-	selectPort(JOYSTICK_PORT); // assign JOYSTICK_PORT to the port in use
 
 In order to update readings from joystick, call getPosition() to read the
 most recent data and then assess up, down, left, and right (true when pressed).
@@ -27,16 +26,16 @@ To use, declare a global instance of an TinyJoystick object,
 	TinyRotary rotary = TinyRotary();
 
 Then include the following in setup().
+  selectPort(ROTARY_PORT); // assign ROTARY_PORT to the port in use
 	rotary.begin();
-	rotary.init();
-	selectPort(ROTARY_PORT); // assign ROTARY_PORT to the port in use
+	
 
 In order to update readings from rotary switch, call getPosition() to read the
 number 0-9 on the switch.
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef WIRELINGINPUTS_h
-#define WIRELINGINPUTS_h
+#ifndef SX1505_h
+#define SX1505_h
 
 // Definitions for SX1505 I2C I/O Expander
 #define SX1505_I2CADDR			    0x20
@@ -70,9 +69,9 @@ number 0-9 on the switch.
 
 #include <inttypes.h>
 
-class SH7010 {
+class SX1505 {
 public:
-	SH7010(void);
+	SX1505(void);
 	int begin(void);
 	void write(uint8_t, uint8_t);
 	uint8_t read(uint8_t);
@@ -85,7 +84,7 @@ public:
 	uint8_t I2Caddress = 0;
 };
 
-class TinyJoystick : public SH7010 {
+class TinyJoystick : public SX1505 {
 public:
 	TinyJoystick(void);
   	void getPosition(void);
@@ -96,7 +95,7 @@ public:
 	uint8_t right = 0;
 };
 
-class TinyRotary : public SH7010 {
+class TinyRotary : public SX1505 {
 public:
 	TinyRotary(void);
 	uint8_t getPosition(void);
