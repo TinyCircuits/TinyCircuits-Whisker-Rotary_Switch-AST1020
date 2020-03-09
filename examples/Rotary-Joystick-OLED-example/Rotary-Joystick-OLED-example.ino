@@ -16,9 +16,8 @@
 #include <Wire.h>
 #include <Wireling.h>
 #include <TinierScreen.h>       // For interfacing with the 0.42" OLED
-#include <TinyBuffer.h>         // For building a screen buffer for the 0.42" OLED
-#include "font.h"
-#include "SX1505.h"             // For interfacing with Joystick and Rotary Switch Wirelings
+#include <GraphicsBuffer.h>     // For building a screen buffer for the 0.42" OLED
+#include <SX1505.h>             // For interfacing with Joystick and Rotary Switch Wirelings
 
 // Universal Serial Monitor Config
 #if defined (ARDUINO_ARCH_AVR)
@@ -41,21 +40,21 @@ TinyJoystick joystick = TinyJoystick();
 /* * * * * * * * * * 0.42" OLED * * * * * * * * * */
 #define OLED_PORT 3 
 #define OLED_RST (uint8_t) A3 // OLED reset line, matches port number
-TinierScreen display042 = TinierScreen(OLED042);
-TinyBuffer screenBuffer042 = TinyBuffer(72, 40, colorDepth1BPP);
+TinierScreen display042 = TinierScreen(TinierScreen042);
+GraphicsBuffer screenBuffer042 = GraphicsBuffer(72, 40, colorDepth1BPP);
 
 void setup() {
   Wire.begin();
   Wireling.begin();
 
   /* * * * * * Screen Init * * * * */
-  pinMode(OLED_RST, OUTPUT);
+  if (screenBuffer042.begin()) {
+    //memory allocation error- buffer too big!
+  }
   screenBuffer042.clear();
-  digitalWrite(OLED_RST, LOW);
-  delay(1);
-  digitalWrite(OLED_RST, HIGH);
+  
   Wireling.selectPort(OLED_PORT);
-  display042.begin();
+  display042.begin(OLED_RST);
   Wire.setClock(1000000);
   screenBuffer042.setFont(thinPixel7_10ptFontInfo);
 
